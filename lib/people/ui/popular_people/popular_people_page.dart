@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_people/utils/common.dart';
+import 'package:movies_people/utils/retry_failed_loading.dart';
 import 'popular_people_cubit.dart';
+import 'popular_people_state.dart';
 
 class PopularPeoplePage extends StatelessWidget {
   static const String route = '/popular_people';
@@ -13,7 +16,7 @@ class PopularPeoplePage extends StatelessWidget {
       create: (context) {
         return PopularPeopleCubit();
       },
-      child: Scaffold(
+      child: const Scaffold(
         body: PopularPeopleBody(),
       ),
     );
@@ -26,7 +29,40 @@ class PopularPeopleBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO Build your UI
-    throw UnimplementedError();
+    return BlocListener<PopularPeopleCubit, PopularPeopleState>(
+      listener: (context, state) {
+        if (state.errorMessage?.isNotEmpty ?? false) {
+          showErrorSnackBar(context, state.errorMessage ?? "");
+        }
+      },
+      child: Stack(
+        children: [
+          //View
+
+          //Loading Widget
+          Center(
+            child: BlocBuilder<PopularPeopleCubit, PopularPeopleState>(
+              builder: (context, state) {
+                if (state.popularPeople.isLoading) {
+                  return const CircularProgressIndicator.adaptive();
+                }
+
+                if (state.popularPeople.isFailure) {
+                  return RetryFailedLoading(
+                    onRetryPressed: () {
+                      //TODO
+                    },
+                  );
+                }
+
+                return const SizedBox();
+              },
+            ),
+          ),
+
+
+        ],
+      ),
+    );
   }
 }

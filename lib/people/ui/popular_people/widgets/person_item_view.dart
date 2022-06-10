@@ -29,27 +29,29 @@ class PersonItemView extends StatelessWidget {
 
           SizedBox(width: PaddingDimensions.normal,),
 
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                person.name,
-                textAlign: TextAlign.start,
-                style: TextStyles.semiBold(
-                  color: AppColors.textPrimaryColor,
-                  fontSize: Dimensions.large
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  person.name,
+                  textAlign: TextAlign.start,
+                  style: TextStyles.semiBold(
+                    color: AppColors.textPrimaryColor,
+                    fontSize: Dimensions.large
+                  ),
                 ),
-              ),
 
-              Text(
-                person.formatKnownForTitle(),
-                style: TextStyles.regular(
-                  color: AppColors.textSecondaryColor,
-                  fontSize: Dimensions.normal
-                ),
-              )
-            ],
+                Text(
+                  person.formatKnownForTitle(),
+                  style: TextStyles.regular(
+                    color: AppColors.textSecondaryColor,
+                    fontSize: Dimensions.normal
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),

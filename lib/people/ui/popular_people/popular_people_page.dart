@@ -28,6 +28,7 @@ class PopularPeoplePage extends StatelessWidget {
         );
       },
       child: Scaffold(
+        backgroundColor: AppColors.backgroundColor,
         appBar: ApplicationAppBars.normalAppBar(
           title: "Popular People",
         ),
@@ -110,6 +111,7 @@ class _PopularPeopleBodyState extends State<PopularPeopleBody> {
     );
   }
 
+  //TODO refresh indicator
   Widget _buildPeopleList() {
     return PagedListView<int, PersonInfo>.separated(
       padding: EdgeInsets.symmetric(

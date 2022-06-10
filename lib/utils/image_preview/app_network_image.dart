@@ -33,13 +33,17 @@ class AppNetworkImage extends StatelessWidget {
       },
       placeholderFit: BoxFit.cover,
       imageErrorBuilder: (context, error, stackTrace) {
-        return Center(
-          child: Text(
-            "لا يوجد صورة",
-            textAlign: TextAlign.center,
-            style: TextStyles.regular(
-                color: AppColors.textPrimaryColor,
-                fontSize: Dimensions.normal
+        return SizedBox(
+          width: width,
+          height: height,
+          child: Center(
+            child: Text(
+              "لا يوجد صورة",
+              textAlign: TextAlign.center,
+              style: TextStyles.regular(
+                  color: AppColors.textPrimaryColor,
+                  fontSize: Dimensions.normal
+              ),
             ),
           ),
         );

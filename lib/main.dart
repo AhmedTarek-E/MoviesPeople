@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_people/people/ui/popular_people/popular_people_page.dart';
 
 import 'utils/app_colors.dart';
 import 'utils/dimensions_initializer.dart';
@@ -16,13 +17,10 @@ class MyApp extends StatelessWidget {
       title: 'Movies People',
       debugShowCheckedModeBanner: false,
       color: AppColors.appBackgroundColor,
-      theme: ThemeData(
-          primaryColor: AppColors.primaryColor
+      theme: ThemeData(primaryColor: AppColors.primaryColor),
+      home: const DimensionsInitializer(
+        child: PopularPeoplePage(),
       ),
-      locale: const Locale("ar"),
-      supportedLocales: const [Locale("ar"), Locale("en")],
-      //TODO
-      home: const DimensionsInitializer(child: SizedBox()),
     );
   }
 }

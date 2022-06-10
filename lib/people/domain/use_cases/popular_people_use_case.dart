@@ -6,7 +6,7 @@ import 'package:movies_people/people/domain/models/person_info.dart';
 class PopularPeopleUseCase {
 
   Future<PaginationData<PersonInfo>> execute(int page) async {
-    return const PaginationData(
+    return PaginationData(
       [
         PersonInfo(
           0,
@@ -21,7 +21,7 @@ class PopularPeopleUseCase {
           "Aquaman",
         ),
       ],
-      PageInfo(1, 500),
+      PageInfo(page, 2),
     );
   }
 }

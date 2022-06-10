@@ -16,8 +16,8 @@ class RetryFailedLoading extends StatelessWidget {
     String? retryButtonTitle,
     required this.onRetryPressed,
     this.isRetryLoading = false,
-  })  : message = message ?? "فشل التحميل",
-        retryButtonTitle = retryButtonTitle ?? "إعادة المحاولة",
+  })  : message = message ?? "Failed to load",
+        retryButtonTitle = retryButtonTitle ?? "Retry",
         super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class RetryFailedLoading extends StatelessWidget {
           child: Text(
             retryButtonTitle,
             style: TextStyles.semiBold(
-                color: AppColors.textSecondaryColor,
+                color: AppColors.textTertiaryColor,
                 fontSize: Dimensions.large),
           ),
           style: ButtonStyle(
@@ -48,7 +48,7 @@ class RetryFailedLoading extends StatelessWidget {
                 (states) => AppColors.primaryColor),
             padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
               vertical: 16,
-              horizontal: 16,
+              horizontal: 64,
             )),
           ),
         ),

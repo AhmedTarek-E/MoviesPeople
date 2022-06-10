@@ -31,9 +31,11 @@ class PersonItemView extends StatelessWidget {
 
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 person.name,
+                textAlign: TextAlign.start,
                 style: TextStyles.semiBold(
                   color: AppColors.textPrimaryColor,
                   fontSize: Dimensions.large

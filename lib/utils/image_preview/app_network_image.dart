@@ -26,9 +26,12 @@ class AppNetworkImage extends StatelessWidget {
       image: image,
       placeholderErrorBuilder: (context, error, stackTrace) {
         return Container(
+          width: width,
+          height: height,
           color: placeholderColor,
         );
       },
+      placeholderFit: BoxFit.cover,
       imageErrorBuilder: (context, error, stackTrace) {
         return Center(
           child: Text(

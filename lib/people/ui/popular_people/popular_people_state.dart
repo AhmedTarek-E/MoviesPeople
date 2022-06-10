@@ -14,6 +14,16 @@ class PopularPeopleState extends Equatable {
     const Async.initial(),
   );
 
+  PopularPeopleState reduce({
+    String? errorMessage,
+    Async<PaginationData<PersonInfo>>? popularPeople,
+  }) {
+    return PopularPeopleState(
+      errorMessage,
+      popularPeople ?? this.popularPeople,
+    );
+  }
+
   @override
   List<Object?> get props => [
     errorMessage,

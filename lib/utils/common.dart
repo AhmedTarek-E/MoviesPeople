@@ -41,8 +41,8 @@ void showErrorSnackBar(BuildContext context, String errorMessage, {
       onPressed: () {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
       },
-      label: "إخفاء",
-      textColor: AppColors.textSecondaryColor,
+      label: "Hide",
+      textColor: AppColors.textTertiaryColor,
     ),
     duration: duration,
     backgroundColor: Colors.red,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:movies_people/people/di/di_container.dart';
+import 'package:movies_people/people/domain/models/pagination_data.dart';
 import 'package:movies_people/people/domain/models/person_info.dart';
 import 'package:movies_people/people/ui/popular_people/widgets/person_item_view.dart';
 import 'package:movies_people/utils/app_colors.dart';
@@ -21,7 +23,9 @@ class PopularPeoplePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PopularPeopleCubit>(
       create: (context) {
-        return PopularPeopleCubit();
+        return PopularPeopleCubit(
+          DiContainer.getPopularPeopleUseCase()
+        );
       },
       child: Scaffold(
         appBar: ApplicationAppBars.normalAppBar(
@@ -34,8 +38,34 @@ class PopularPeoplePage extends StatelessWidget {
 
 }
 
-class PopularPeopleBody extends StatelessWidget {
+class PopularPeopleBody extends StatefulWidget {
   const PopularPeopleBody({Key? key}) : super(key: key);
+
+  @override
+  State<PopularPeopleBody> createState() => _PopularPeopleBodyState();
+}
+
+class _PopularPeopleBodyState extends State<PopularPeopleBody> {
+  final _pagingController = PagingController<int, PersonInfo>(
+      firstPageKey: 1, invisibleItemsThreshold: 8);
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      BlocProvider.of<PopularPeopleCubit>(context).paginate(pageKey);
+    });
+    super.initState();
+  }
+
+  void _onDataLoaded(PaginationData<PersonInfo> result) {
+    if (_pagingController.nextPageKey != result.pageInfo.page) return;
+
+    if (result.pageInfo.hasNext) {
+      _pagingController.appendPage(result.data, result.pageInfo.page + 1);
+    } else {
+      _pagingController.appendLastPage(result.data);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +74,19 @@ class PopularPeopleBody extends StatelessWidget {
         if (state.errorMessage?.isNotEmpty ?? false) {
           showErrorSnackBar(context, state.errorMessage ?? "");
         }
+
+        if (state.popularPeople.isFailure) {
+          _pagingController.error = "error";
+        }
+
+        if (state.popularPeople.isSuccessWithData) {
+          _onDataLoaded(state.popularPeople.data!);
+        }
       },
       child: Stack(
         children: [
           //View
-          const PeopleList(),
+          _buildPeopleList(),
 
           //Loading Widget
           Center(
@@ -57,7 +95,7 @@ class PopularPeopleBody extends StatelessWidget {
                 if (state.popularPeople.isFailure) {
                   return RetryFailedLoading(
                     onRetryPressed: () {
-                      //TODO
+                      _pagingController.refresh();
                     },
                   );
                 }
@@ -67,27 +105,17 @@ class PopularPeopleBody extends StatelessWidget {
             ),
           ),
 
-
         ],
       ),
     );
   }
-}
 
-class PeopleList extends StatefulWidget {
-  const PeopleList({Key? key}) : super(key: key);
-
-  @override
-  State<PeopleList> createState() => _PeopleListState();
-}
-
-class _PeopleListState extends State<PeopleList> {
-  final _pagingController = PagingController<int, PersonInfo>(
-      firstPageKey: 1, invisibleItemsThreshold: 8);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildPeopleList() {
     return PagedListView<int, PersonInfo>.separated(
+      padding: EdgeInsets.symmetric(
+        vertical: PaddingDimensions.large,
+        horizontal: PaddingDimensions.large,
+      ),
       pagingController: _pagingController,
       separatorBuilder: (context, index) => const SizedBox(height: 8,),
       builderDelegate: PagedChildBuilderDelegate(

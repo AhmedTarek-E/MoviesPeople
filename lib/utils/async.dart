@@ -13,6 +13,8 @@ class Async<T> extends Equatable {
   bool get isSuccess =>
       (_successWithoutData || data != null) && (errorMessage == null);
 
+  bool get isSuccessWithData => data != null && errorMessage == null;
+
   bool get isFailure => errorMessage != null;
 
   const Async.loading(): this._(null, null, false, true);

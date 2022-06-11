@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies_people/people/di/di_container.dart';
 import 'package:movies_people/people/domain/models/pagination_data.dart';
 import 'package:movies_people/people/domain/models/person_info.dart';
+import 'package:movies_people/people/ui/person_details/person_details_page.dart';
 import 'package:movies_people/people/ui/popular_people/widgets/person_item_view.dart';
 import 'package:movies_people/utils/app_colors.dart';
 import 'package:movies_people/utils/application_app_bars.dart';
@@ -152,6 +153,6 @@ class _PopularPeopleBodyState extends State<PopularPeopleBody> {
   }
 
   void _onPersonPressed(PersonInfo person) {
-    //TODO: navigate to details
+    pushMaterialPage(context, PersonDetailsPage(personId: person.id,),);
   }
 }

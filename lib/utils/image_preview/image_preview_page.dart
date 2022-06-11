@@ -50,7 +50,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
         title: Text(
           "عرض الصورة",
           style: TextStyles.semiBold(
-              color: AppColors.textSecondaryColor,
+              color: AppColors.textTertiaryColor,
               fontSize: Dimensions.xLarge
           ),
         ),

@@ -10,7 +10,19 @@ class PersonDetailsCubit extends Cubit<PersonDetailsState> {
 
   PersonDetailsCubit(this._personDetailsUseCase) : super(const PersonDetailsState.initial());
 
+  int personId = -1;
+
   void onStarted(int personId) async {
+    this.personId = personId;
+    await _loadData();
+  }
+
+  void retry() async {
+    if (personId == -1) return;
+    await _loadData();
+  }
+
+  Future<void> _loadData() async {
     emit(state.reduce(personDetails: const Async.loading()));
 
     try {

@@ -1,6 +1,7 @@
 
 import 'package:movies_people/people/data/data_sources/people_data_source.dart';
 import 'package:movies_people/people/data/repositories/people_repository_imp.dart';
+import 'package:movies_people/people/domain/use_cases/person_details_use_case.dart';
 import 'package:movies_people/people/domain/use_cases/popular_people_use_case.dart';
 
 class DiContainer {
@@ -14,6 +15,14 @@ class DiContainer {
 
   static PopularPeopleUseCase getPopularPeopleUseCase() {
     return PopularPeopleUseCase(
+      PeopleRepositoryImp(
+        getPeopleDataSource(),
+      ),
+    );
+  }
+
+  static PersonDetailsUseCase getPersonDetailsUseCase() {
+    return PersonDetailsUseCase(
       PeopleRepositoryImp(
         getPeopleDataSource(),
       ),

@@ -9,8 +9,13 @@ import 'package:photo_view/photo_view.dart';
 
 class ImagePreviewPage extends StatefulWidget {
   final ImageProvider imageProvider;
+  final VoidCallback? onSavePressed;
 
-  const ImagePreviewPage({Key? key, required this.imageProvider}) : super(key: key);
+  const ImagePreviewPage({
+    Key? key,
+    required this.imageProvider,
+    this.onSavePressed,
+  }) : super(key: key);
 
   factory ImagePreviewPage.file(String path) {
     return ImagePreviewPage(
@@ -18,9 +23,10 @@ class ImagePreviewPage extends StatefulWidget {
     );
   }
 
-  factory ImagePreviewPage.network(String url) {
+  factory ImagePreviewPage.network(String url, {VoidCallback? onSavePressed}) {
     return ImagePreviewPage(
-        imageProvider: NetworkImage(url)
+      imageProvider: NetworkImage(url),
+      onSavePressed: onSavePressed,
     );
   }
 
@@ -29,6 +35,12 @@ class ImagePreviewPage extends StatefulWidget {
 }
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
+  void _onSavePressed() {
+    if (widget.onSavePressed != null) {
+      widget.onSavePressed!();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -47,6 +59,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           },
         ),
         toolbarHeight: Dimensions.toolbarHeight,
+        centerTitle: true,
         title: Text(
           "عرض الصورة",
           style: TextStyles.semiBold(
@@ -54,6 +67,27 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
               fontSize: Dimensions.xLarge
           ),
         ),
+        actions: [
+          Center(
+            child: InkWell(
+              onTap: _onSavePressed,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: PaddingDimensions.normal,
+                  horizontal: PaddingDimensions.large,
+                ),
+                child: Text(
+                  "Save",
+                  style: TextStyles.bold(
+                    color: AppColors.textTertiaryColor,
+                    fontSize: Dimensions.normal
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: PaddingDimensions.large,),
+        ],
       ),
       backgroundColor: Colors.black,
       body: PhotoView(

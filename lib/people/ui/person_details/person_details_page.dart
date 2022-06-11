@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:movies_people/people/di/di_container.dart';
 import 'package:movies_people/people/domain/models/person_details.dart';
 import 'package:movies_people/people/ui/person_details/person_details_state.dart';
@@ -201,7 +202,23 @@ class PersonDetailsImages extends StatelessWidget {
 
   void _onImagePressed(BuildContext context, String image) {
     final url = image.replaceAll("w185", "original");
-    pushMaterialPage(context, ImagePreviewPage.network(url));
+    pushMaterialPage(
+      context,
+      ImagePreviewPage.network(
+        url,
+        onSavePressed: () {
+          _saveImage(context, url);
+        },
+      ),
+    );
+  }
+
+  void _saveImage(BuildContext context, String image) async {
+    await GallerySaver.saveImage(
+      image,
+      albumName: "MoviesPeople",
+    );
+    showSuccessSnackBar(context, "Saved Image Successfully");
   }
 }
 
